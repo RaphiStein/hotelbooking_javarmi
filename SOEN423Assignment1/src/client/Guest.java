@@ -8,7 +8,7 @@ import server.HotelServer;
 
 public class Guest {
 
-	public static void main(String[] args) {
+	public Guest() {
 		System.out.println("Hotel Guest Client System...\n\n");
 		
 		try {
