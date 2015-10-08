@@ -5,8 +5,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-import Interface.HotelGuestInterface;
-import Interface.HotelInterface;
+import interfaces.HotelGuestInterface;
+import interfaces.HotelInterface;
 import server.HotelServer;
 
 public class Guest {

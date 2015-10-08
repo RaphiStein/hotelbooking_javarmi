@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import Interface.HotelInterface;
-import Interface.HotelManagerInterface;
+import interfaces.HotelInterface;
+import interfaces.HotelManagerInterface;
 
 public class Manager implements HotelManagerInterface, Serializable {
 

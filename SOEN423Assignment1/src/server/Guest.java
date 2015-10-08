@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import Interface.HotelGuestInterface;
-import Interface.HotelInterface;
+import interfaces.HotelGuestInterface;
+import interfaces.HotelInterface;
 
 public class Guest implements HotelGuestInterface, Serializable {
 

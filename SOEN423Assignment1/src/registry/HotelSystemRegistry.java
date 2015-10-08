@@ -1,10 +1,12 @@
-package Registry;
+package registry;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-/* CURRENTLY NOT IN USE */ 
+
+/* NOTE: CURRENTLY NOT IN USE */
+
 public class HotelSystemRegistry {
 	
 	private static Registry registry; 

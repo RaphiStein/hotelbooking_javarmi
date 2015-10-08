@@ -6,7 +6,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-import Interface.HotelInterface;
+import interfaces.HotelInterface;
 
 public class HotelServer{
 	
