@@ -13,13 +13,13 @@ public class Client {
 		while (!valid){
 			Scanner scanner = new Scanner(System.in);
 			cORm = scanner.next();
-			if (cORm.length() == 1 && cORm.equalsIgnoreCase("c") || cORm.equalsIgnoreCase("m")){
+			if (cORm.length() == 1 && cORm.equalsIgnoreCase("g") || cORm.equalsIgnoreCase("m")){
 				System.out.println(cORm);
 				valid = true;
 				scanner.close();
 			}
 			else {
-				System.out.println("Not valid input. Please enter the letter c or the letter m");
+				System.out.println("Not valid input. Please enter the letter g or the letter m");
 			}
 				
 		}
@@ -28,11 +28,11 @@ public class Client {
 		if (cORm.equalsIgnoreCase("m")){
 			
 		}
-		else if (cORm.equalsIgnoreCase("c")){
-			
+		else if (cORm.equalsIgnoreCase("g")){
+			Guest guestClient = new Guest();
 		}
 		else {
-			System.out.println("Some strange problem has occured");
+			System.out.println("ERROR Some strange problem has occured");
 		}
 	}
 }

@@ -14,6 +14,10 @@ public class HotelServer implements HotelInterface{
 	
 	private Hotel hotel;
 	
+	// REMOTE OBJECTS HOSTED HERE
+	private Remote guest;
+	private Remote manager;
+	
 	public HotelServer(int id){
 		serverId = id;
 	}
@@ -25,12 +29,16 @@ public class HotelServer implements HotelInterface{
 		//Remote hgsRemote = UnicastRemoteObject.exportObject(hgs, port);
 		//Remote hmsRemote = UnicastRemoteObject.exportObject(hms, port);
 		
-		Remote hotel = UnicastRemoteObject.exportObject(this, 2020);
+		Remote hotel = UnicastRemoteObject.exportObject(new Hotel(), 2020);
+		
+		// Special registry where these objects can find hotel functions
+		guest = UnicastRemoteObject.exportObject(new Guest(), 2020);
+		manager = UnicastRemoteObject.exportObject(new Manager(), 2020);
+		
 		Registry registry = LocateRegistry.createRegistry(2020);
-		//Registry registry = LocateRegistry.getRegistry(2020);
-		registry.rebind("hotel-" + serverId, hotel);
-		//registry.bind("guestRMI", hgsRemote);
-		//registry.bind("managerRMI", hmsRemote);
+		
+		registry.rebind("hotelManager-" + serverId, guest);
+		registry.rebind("hotelGuest-" + serverId, manager);
 	}
 	
 	public void launch(int serverNumber) {
