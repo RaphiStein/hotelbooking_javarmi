@@ -8,7 +8,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 import Interface.HotelInterface;
 
-public class HotelServer implements HotelInterface{
+public class HotelServer{
 	
 	private static int serverId;
 	
@@ -29,16 +29,15 @@ public class HotelServer implements HotelInterface{
 		//Remote hgsRemote = UnicastRemoteObject.exportObject(hgs, port);
 		//Remote hmsRemote = UnicastRemoteObject.exportObject(hms, port);
 		
-		Remote hotel = UnicastRemoteObject.exportObject(new Hotel(), 2020);
-		
-		// Special registry where these objects can find hotel functions
-		guest = UnicastRemoteObject.exportObject(new Guest(), 2020);
-		manager = UnicastRemoteObject.exportObject(new Manager(), 2020);
+
+		Remote hotel = UnicastRemoteObject.exportObject(new Hotel(serverId), 2020);
+		guest = UnicastRemoteObject.exportObject(new Guest((HotelInterface) hotel), 2020);
+		manager = UnicastRemoteObject.exportObject(new Manager((HotelInterface) hotel), 2020);
 		
 		Registry registry = LocateRegistry.createRegistry(2020);
-		
-		registry.rebind("hotelManager-" + serverId, guest);
-		registry.rebind("hotelGuest-" + serverId, manager);
+		registry.rebind("hotel-" + serverId, hotel);
+		registry.rebind("hotelManager-" + serverId, manager);
+		registry.rebind("hotelGuest-" + serverId, guest);
 	}
 	
 	public void launch(int serverNumber) {
@@ -51,8 +50,4 @@ public class HotelServer implements HotelInterface{
 		}
 	}
 
-	@Override
-	public Guest getGuest() throws RemoteException {
-		return new Guest();
-	}
 }

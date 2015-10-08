@@ -5,22 +5,28 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import Interface.HotelGuestInterface;
+import Interface.HotelInterface;
 
 public class Guest implements HotelGuestInterface, Serializable {
 
-	private Remote hotel;
+	private HotelInterface hotel;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4923801110152732444L;
 
-	public Guest(){
-		
+	public Guest(HotelInterface hotel){
+		this.hotel = hotel;
 	}
 	
 	@Override
 	public void sayHiToGuest() throws RemoteException {
 		System.out.println("Hi Guest");
+	}
+
+	@Override
+	public int getHotelId() throws RemoteException {
+		return hotel.getHotelId();
 	}
 
 }

@@ -1,6 +1,9 @@
 package client;
 
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 import Interface.HotelGuestInterface;
 import Interface.HotelInterface;
@@ -8,11 +11,14 @@ import server.HotelServer;
 
 public class Guest {
 
+	private HotelGuestInterface hotelGuestInterface;
+	
 	public Guest() {
 		System.out.println("--------------------------------");
 		System.out.println("  Hotel Guest Client System...  ");
 		System.out.println("--------------------------------\n\n");
 		
+		/*
 		try {
 			//System.setSecurityManager(new RMISecurityManager());
 			System.setSecurityManager(System.getSecurityManager());
@@ -25,6 +31,7 @@ public class Guest {
 		catch (Exception e){
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 	public HotelGuestInterface accessHotel(int hotelNumber){
@@ -34,6 +41,38 @@ public class Guest {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	public void loginToHotel(int hotelId){
+		// If logged in to another hotel, first log out
+		if (hotelGuestInterface != null){
+			logoutOfHotel();
+		}
+		try {
+			hotelGuestInterface = (HotelGuestInterface) Naming.lookup("rmi://localhost:2020/hotelGuest-" + hotelId);
+			System.out.println("-- You are now logged in as guest to Hotel-" + hotelId + " --");
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public void logoutOfHotel(){
+		hotelGuestInterface = null;
+	}
+	
+	public void getHotelId(){
+		try {
+			System.out.println("The currnet hotelId is " + hotelGuestInterface.getHotelId());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
