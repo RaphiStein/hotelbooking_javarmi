@@ -28,5 +28,7 @@ public class Guest implements HotelGuestInterface, Serializable {
 	public int getHotelId() throws RemoteException {
 		return hotel.getHotelId();
 	}
+	
+	
 
 }

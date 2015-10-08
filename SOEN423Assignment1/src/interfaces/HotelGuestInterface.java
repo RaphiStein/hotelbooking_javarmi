@@ -7,4 +7,7 @@ public interface HotelGuestInterface extends Remote{
 
 	public void sayHiToGuest() throws RemoteException;
 	public int getHotelId() throws RemoteException;
+	
+	// ACTUAL METHODS (i.e. reserveRooms, cancelRooms, etc)
+	
 }

@@ -1,6 +1,7 @@
 package client;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Client {
 
@@ -33,8 +34,8 @@ public class Client {
 			System.out.println("NOT YET IMPLEMENTED");
 		}
 		else if (cORm.equalsIgnoreCase("g")){
-			Guest guestClient = new Guest();
-			System.out.println("Which hotel would you like to log in to?");
+			String guestId = client.promptForGuestId();
+			Guest guestClient = new Guest(guestId);
 			int hotelId = client.promptForHotelId();
 			guestClient.loginToHotel(hotelId);
 			guestClient.getHotelId();
@@ -44,7 +45,27 @@ public class Client {
 		}
 	}
 
+	private String promptForGuestId() {
+		System.out.println("What is your guest ID?");
+		boolean valid = false;
+		String guestId = ""; //default
+		while (!valid){
+			Scanner scanner = new Scanner(System.in);
+			try {
+				guestId = scanner.next(Pattern.compile("\\d{10}"));
+				System.out.println(guestId);
+				valid = true;
+			}
+			catch (Exception e){
+				System.out.println("Your Guest ID should be 10 digits long");
+			}
+		}
+
+		return guestId;
+	}
+
 	private int promptForHotelId(){
+		System.out.println("Which hotel would you like to log in to?");
 		boolean valid = false;
 		int hotelId = 1; //default
 		while (!valid){
@@ -52,7 +73,6 @@ public class Client {
 			hotelId = scanner.nextInt();
 			System.out.println(hotelId);
 			valid = true;
-			scanner.close();
 		}
 
 		return hotelId;

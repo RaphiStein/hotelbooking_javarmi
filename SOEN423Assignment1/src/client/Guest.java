@@ -11,9 +11,12 @@ import server.HotelServer;
 
 public class Guest {
 
+	private String guestId;
+	
 	private HotelGuestInterface hotelGuestInterface;
 	
-	public Guest() {
+	public Guest(String id) {
+		this.guestId = id;
 		System.out.println("--------------------------------");
 		System.out.println("  Hotel Guest Client System...  ");
 		System.out.println("--------------------------------\n\n");
