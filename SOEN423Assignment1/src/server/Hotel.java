@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 
 import interfaces.HotelInterface;
 import server.misc.RoomList;
+import server.people.Guest;
 
 public class Hotel implements HotelInterface{
 

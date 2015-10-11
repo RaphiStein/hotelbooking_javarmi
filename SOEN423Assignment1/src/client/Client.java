@@ -1,7 +1,10 @@
 package client;
 
+import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+import interfaces.HotelGuestInterface;
 
 public class Client {
 
@@ -38,7 +41,13 @@ public class Client {
 			Guest guestClient = new Guest(guestId);
 			int hotelId = client.promptForHotelId();
 			guestClient.loginToHotel(hotelId);
-			guestClient.getHotelId();
+			HotelGuestInterface hgi = guestClient.testSendingRemote();
+			try {
+				hgi.sayHiToGuest();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else {
 			System.out.println("ERROR Some strange problem has occured");

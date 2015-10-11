@@ -77,5 +77,15 @@ public class Guest {
 			e.printStackTrace();
 		}
 	}
+	
+	public HotelGuestInterface testSendingRemote(){
+		try {
+			return (HotelGuestInterface) hotelGuestInterface.testSendingRemote();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }
