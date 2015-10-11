@@ -1,10 +1,9 @@
-package servers;
+package servers.objects;
 
 import java.rmi.RemoteException;
 
 import interfaces.HotelInterface;
-import server.misc.RoomList;
-import server.objects.Guest;
+import servers.misc.RoomList;
 
 public class Hotel implements HotelInterface{
 

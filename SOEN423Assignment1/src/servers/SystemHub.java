@@ -1,16 +1,16 @@
 package servers;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import interfaces.HotelInterface;
-import server.objects.Guest;
-import server.objects.Manager;
+import servers.objects.Guest;
+import servers.objects.Hotel;
+import servers.objects.Manager;
 
-public class HotelServer{
+public class SystemHub{
 	
 	private static int serverId;
 	
@@ -20,7 +20,7 @@ public class HotelServer{
 	private Remote guest;
 	private Remote manager;
 	
-	public HotelServer(int id){
+	public SystemHub(int id){
 		serverId = id;
 	}
 	
@@ -44,7 +44,7 @@ public class HotelServer{
 	
 	public void launch(int serverNumber) {
 		try {
-			(new HotelServer(serverNumber)).exportServer();
+			(new SystemHub(serverNumber)).exportServer();
 			System.out.println("Server " + serverNumber + " is up and running");
 		}
 		catch(Exception e){

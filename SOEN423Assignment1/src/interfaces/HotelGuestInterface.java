@@ -3,9 +3,14 @@ package interfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Date;
+import servers.misc.RoomType;
 
-import server.misc.RoomType;
-
+/**
+ * Defines the methods of the Guest RMI objects. 
+ * Essentially, these are the actions a guest client can execute on the server. 
+ * @author Raphi
+ *
+ */
 public interface HotelGuestInterface extends Remote{
 	
 	public void sayHiToGuest() throws RemoteException;

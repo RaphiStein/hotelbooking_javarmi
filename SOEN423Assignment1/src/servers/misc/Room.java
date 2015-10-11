@@ -1,4 +1,4 @@
-package server.misc;
+package servers.misc;
 
 public class Room {
 

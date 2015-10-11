@@ -1,4 +1,4 @@
-package server.misc;
+package servers.misc;
 
 public enum RoomType {
 	SINGLE,

@@ -1,4 +1,4 @@
-package server.misc;
+package servers.misc;
 
 import java.util.Map;
 

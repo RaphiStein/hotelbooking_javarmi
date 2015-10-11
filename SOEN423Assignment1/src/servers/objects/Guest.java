@@ -1,4 +1,4 @@
-package server.objects;
+package servers.objects;
 
 import java.io.Serializable;
 import java.rmi.Remote;
@@ -8,7 +8,6 @@ import java.util.Date;
 
 import interfaces.HotelGuestInterface;
 import interfaces.HotelInterface;
-import server.misc.RoomType;
 
 public class Guest implements HotelGuestInterface, Serializable {
 
@@ -25,6 +24,10 @@ public class Guest implements HotelGuestInterface, Serializable {
 	public Guest(){
 		System.out.println("Guest on Server created");
 	}
+	public Guest(String id){
+		System.out.println("Guest " + id + "on Server created");
+		this.guestId = id;
+	}
 	
 	
 	@Override
@@ -38,26 +41,6 @@ public class Guest implements HotelGuestInterface, Serializable {
 		return hotel.getHotelId();
 	}
 
-	@Override
-	public boolean reserveRoom(int guestId, int hotelId, RoomType roomType, Date checkIn, Date checkOut)
-			throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean cancelRoom(int guestId, int hotelId, RoomType roomType, Date checkIn, Date checkOut)
-			throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean checkAvailability(int guestId, int preferredHotelId, RoomType roomType, Date checkIn, Date checkOut)
-			throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	public Remote testSendingRemote(){
 		try {
@@ -67,6 +50,24 @@ public class Guest implements HotelGuestInterface, Serializable {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	@Override
+	public boolean reserveRoom(int guestId, int hotelId, servers.misc.RoomType roomType, Date checkIn, Date checkOut)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean cancelRoom(int guestId, int hotelId, servers.misc.RoomType roomType, Date checkIn, Date checkOut)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean checkAvailability(int guestId, int preferredHotelId, servers.misc.RoomType roomType, Date checkIn,
+			Date checkOut) throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	
