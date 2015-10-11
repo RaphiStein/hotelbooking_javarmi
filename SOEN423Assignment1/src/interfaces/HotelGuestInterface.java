@@ -17,8 +17,10 @@ public interface HotelGuestInterface extends Remote{
 	public int getHotelId() throws RemoteException;
 	public Remote testSendingRemote() throws RemoteException;
 	
-	// ACTUAL METHODS (i.e. reserveRooms, cancelRooms, etc)
-	boolean reserveRoom(int guestId, int hotelId, RoomType roomType, Date checkIn, Date checkOut) throws RemoteException;
-	boolean cancelRoom(int guestId, int hotelId, RoomType roomType, Date checkIn, Date checkOut) throws RemoteException;	
-	boolean checkAvailability(int guestId, int preferredHotelId, RoomType roomType, Date checkIn, Date checkOut) throws RemoteException;
+	// CUSTOM METHODS
+	public boolean logInToHotel(int hotelId) throws RemoteException;
+	// REQUIRED METHODS (i.e. reserveRooms, cancelRooms, etc)
+	public boolean reserveRoom(int guestId, int hotelId, RoomType roomType, Date checkIn, Date checkOut) throws RemoteException;
+	public boolean cancelRoom(int guestId, int hotelId, RoomType roomType, Date checkIn, Date checkOut) throws RemoteException;	
+	public boolean checkAvailability(int guestId, int preferredHotelId, RoomType roomType, Date checkIn, Date checkOut) throws RemoteException;
 }

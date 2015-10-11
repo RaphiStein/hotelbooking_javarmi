@@ -6,6 +6,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import interfaces.HotelGuestHubInterface;
+import interfaces.HotelHubInterface;
 import interfaces.HotelManagerHubInterface;
 
 public class LaunchServers {
@@ -27,11 +28,15 @@ public class LaunchServers {
 			e.printStackTrace();
 		}
 		
-		/*
-		for (int i = 0; i < NUMBER_OF_SERVERS; i++) {
-			SystemHub hotelServer = new SystemHub(i);
-			hotelServer.launch(i);
+		// Launch HotelHub. This Remote object is not intended to be accessed by clients directly, but rather by the GuestHub and ManagerHub
+		try {
+			HotelHubInterface hotelHub = (HotelHubInterface) UnicastRemoteObject.exportObject(new HotelHub(1), 2021);
+			Registry registry = LocateRegistry.createRegistry(2021);
+			registry.rebind("hotelHub", hotelHub);
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-		*/
+		
+		System.out.println("Hubs Created.");
 	}
 }

@@ -14,5 +14,5 @@ import servers.objects.Hotel;
  */
 public interface HotelHubInterface extends Remote {
 
-	public Hotel getHotelById(int id) throws RemoteException;
+	public HotelInterface getHotelById(int id) throws RemoteException;
 }
