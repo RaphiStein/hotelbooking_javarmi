@@ -1,4 +1,4 @@
-package server;
+package servers;
 
 public class LaunchServers {
 	private static final int NUMBER_OF_SERVERS = 1;

@@ -1,4 +1,4 @@
-package server;
+package servers;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -7,8 +7,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import interfaces.HotelInterface;
-import server.people.Guest;
-import server.people.Manager;
+import server.objects.Guest;
+import server.objects.Manager;
 
 public class HotelServer{
 	

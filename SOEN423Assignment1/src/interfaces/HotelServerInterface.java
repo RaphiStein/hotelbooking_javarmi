@@ -3,7 +3,7 @@ package interfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import server.Hotel;
+import servers.Hotel;
 
 public interface HotelServerInterface extends Remote {
 

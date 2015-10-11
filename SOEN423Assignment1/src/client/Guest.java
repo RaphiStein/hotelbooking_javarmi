@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 
 import interfaces.HotelGuestInterface;
 import interfaces.HotelInterface;
-import server.HotelServer;
+import servers.HotelServer;
 
 public class Guest {
 

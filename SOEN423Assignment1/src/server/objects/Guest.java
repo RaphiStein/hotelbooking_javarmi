@@ -1,4 +1,4 @@
-package server.people;
+package server.objects;
 
 import java.io.Serializable;
 import java.rmi.Remote;
