@@ -2,8 +2,9 @@ package interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Calendar;
 
-import servers.objects.Hotel;
+import servers.misc.RoomType;
 
 /**
  * Defines methods of the HotelHub RMI object.
@@ -15,4 +16,5 @@ import servers.objects.Hotel;
 public interface HotelHubInterface extends Remote {
 
 	public HotelInterface getHotelById(int id) throws RemoteException;
+	public String checkAvailability(int guestId, int preferredHotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
 }
