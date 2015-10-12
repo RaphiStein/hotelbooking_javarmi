@@ -20,6 +20,7 @@ public class Hotel implements HotelInterface{
 	public int doubleRoomPrice;
 	public int familyRoomPrice;
 
+	
 	public Hotel(int id){
 		this.hotelId = id;
 		// Initialize Room lists
@@ -75,31 +76,55 @@ public class Hotel implements HotelInterface{
 		int count = 0;
 		switch (roomType) {
 		case SINGLE:
-			count = 0;
-			for (int i = 0; i < singleRoomList.size(); i++) {
-				if (singleRoomList.get(i).roomIsAvailable(checkIn, checkOut)){
-					count++;
-				}
-			}
-			return count + " " + singleRoomPrice;
+			return getAvailableRoomsData(singleRoomList, checkIn, checkOut) + " " + singleRoomPrice;
 		case DOUBLE:
-			count = 0;
-			for (int i = 0; i < doubleRoomList.size(); i++) {
-				if (doubleRoomList.get(i).roomIsAvailable(checkIn, checkOut)){
-					count++;
-				}
-			}
-			return count + " " + doubleRoomPrice;
+			return getAvailableRoomsData(doubleRoomList, checkIn, checkOut) + " " + doubleRoomPrice;
 		case FAMILY:
-			count = 0;
-			for (int i = 0; i < familyRoomList.size(); i++) {
-				if (familyRoomList.get(i).roomIsAvailable(checkIn, checkOut)){
-					count++;
-				}
-			}
-			return count + " " + familyRoomPrice;
+			return getAvailableRoomsData(familyRoomList, checkIn, checkOut) + " " + familyRoomPrice;
 		default:
 			System.out.println("ERROR with RoomType switch");
+			return null;
+		}
+	}
+	@Override
+	public Room reserveRoom(int guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut)
+			throws RemoteException {
+		// Find available room
+		Room room = getAvailableRoom(roomType, checkIn, checkOut);
+		room.bookRoom(checkIn, checkOut);
+		return room;
+	}
+	
+	private int getAvailableRoomsData(ArrayList<Room> roomList, Calendar checkIn, Calendar checkOut){
+		int count = 0;
+		for (int i = 0; i < roomList.size(); i++) {
+			if (roomList.get(i).roomIsAvailable(checkIn, checkOut)){
+				count++;
+			}
+		}
+		return count;
+	}
+	private Room getAvailableRoom(RoomType roomType, Calendar checkIn, Calendar checkOut){
+		switch (roomType) {
+		case SINGLE:
+			for (int i = 0; i < singleRoomList.size(); i++) {
+				if (singleRoomList.get(i).roomIsAvailable(checkIn, checkOut)){
+					return singleRoomList.get(i);
+				}
+			}
+		case DOUBLE:
+			for (int i = 0; i < doubleRoomList.size(); i++) {
+				if (doubleRoomList.get(i).roomIsAvailable(checkIn, checkOut)){
+					return doubleRoomList.get(i);
+				}
+			}
+		case FAMILY:
+			for (int i = 0; i < familyRoomList.size(); i++) {
+				if (familyRoomList.get(i).roomIsAvailable(checkIn, checkOut)){
+					return familyRoomList.get(i);
+				}
+			}
+		default:
 			return null;
 		}
 	}

@@ -79,12 +79,6 @@ public class Guest {
 	}
 	
 	public HotelGuestInterface testSendingRemote(){
-		try {
-			return (HotelGuestInterface) hotelGuestInterface.testSendingRemote();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return null;
 	}
 

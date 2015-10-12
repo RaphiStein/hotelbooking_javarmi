@@ -7,7 +7,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Room {
+	private static int roomIdCounter = 0;
 
+	private int roomId;
 	private RoomType roomtype;
 	private int price;
 	
@@ -20,6 +22,7 @@ public class Room {
 		// Data structures
 		occupiedDates = new TreeSet<Calendar>();
 		checkInCheckOutPairs = new TreeMap<Calendar, Calendar>();
+		this.roomId = ++Room.roomIdCounter;
 	}
 	
 	public void bookRoom(Calendar checkIn, Calendar checkout){

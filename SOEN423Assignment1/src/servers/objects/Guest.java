@@ -8,16 +8,21 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import interfaces.HotelGuestInterface;
 import interfaces.HotelHubInterface;
 import interfaces.HotelInterface;
 import servers.HotelHub;
+import servers.misc.Room;
 
 public class Guest implements HotelGuestInterface, Serializable {
 	private HotelHubInterface hotelHub; // reference to the common HotelHub 
 	private HotelInterface currentHotel; // the hotel the user is currently logged into
 	private String guestId;
+	
+	private HashMap<Calendar, Room> reservations;
+	
 	/**
 	 * 
 	 */
@@ -46,21 +51,18 @@ public class Guest implements HotelGuestInterface, Serializable {
 		return currentHotel.getHotelId();
 	}
 
-	
-	public Remote testSendingRemote(){
-		try {
-			return UnicastRemoteObject.exportObject(new Guest(), 2020);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 	@Override
 	public boolean reserveRoom(int guestId, int hotelId, servers.misc.RoomType roomType, Calendar checkIn, Calendar checkOut)
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		HotelInterface hotel = hotelHub.getHotelById(hotelId);
+		Room room = hotel.reserveRoom(guestId, hotelId, roomType, checkIn, checkOut);
+		if (room != null){
+			reservations.put(checkIn, room);
+			return true;
+		}
+		else {
+			return false; // reservation not made			
+		}
 	}
 	@Override
 	public boolean cancelRoom(int guestId, int hotelId, servers.misc.RoomType roomType, Calendar checkIn, Calendar checkOut)

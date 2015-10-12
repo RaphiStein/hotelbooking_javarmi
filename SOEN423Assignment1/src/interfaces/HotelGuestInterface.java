@@ -15,7 +15,6 @@ public interface HotelGuestInterface extends Remote{
 	
 	public void sayHiToGuest() throws RemoteException;
 	public int getHotelId() throws RemoteException;
-	public Remote testSendingRemote() throws RemoteException;
 	
 	// CUSTOM METHODS
 	public boolean logInToHotel(int hotelId) throws RemoteException;

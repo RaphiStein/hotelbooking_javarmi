@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Calendar;
 
+import servers.misc.Room;
 import servers.misc.RoomType;
 import servers.objects.Guest;
 
@@ -19,4 +20,6 @@ public interface HotelInterface extends Remote {
 	public int getHotelId() throws RemoteException;
 	
 	public String checkAvailability(RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
+	public Room reserveRoom(int guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
+
 }
