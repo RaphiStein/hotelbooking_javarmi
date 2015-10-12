@@ -49,10 +49,12 @@ public class HotelHub implements HotelHubInterface{
 		return null;
 	}
 	@Override
-	public String checkAvailability(int guestId, int preferredHotelId, RoomType roomType, Calendar checkIn,
+	public String checkAvailability(String guestId, int preferredHotelId, RoomType roomType, Calendar checkIn,
 			Calendar checkOut) throws RemoteException {
+		String result = "";
 		// First, find preferred hotel
+		HotelInterface hotel = hotels.get(preferredHotelId);
+		return "Preferred Hotel: " + hotel.checkAvailability(roomType, checkIn, checkOut);
 		// Iterate through all hotels
-		return null;
 	}
 }

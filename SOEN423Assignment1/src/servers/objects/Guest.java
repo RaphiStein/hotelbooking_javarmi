@@ -69,8 +69,9 @@ public class Guest implements HotelGuestInterface, Serializable {
 		return false;
 	}
 	@Override
-	public String checkAvailability(int guestId, int preferredHotelId, servers.misc.RoomType roomType, Calendar checkIn,
+	public String checkAvailability(String guestId, int preferredHotelId, servers.misc.RoomType roomType, Calendar checkIn,
 			Calendar checkOut) throws RemoteException {
+		
 		String availability = hotelHub.checkAvailability(guestId, preferredHotelId, roomType, checkIn, checkOut);
 		//System.out.println(availability);
 		return availability;

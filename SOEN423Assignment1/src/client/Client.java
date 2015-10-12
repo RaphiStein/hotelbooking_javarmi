@@ -12,12 +12,17 @@ import java.util.regex.Pattern;
 import interfaces.HotelGuestHubInterface;
 import interfaces.HotelGuestInterface;
 import interfaces.HotelManagerHubInterface;
+import interfaces.HotelManagerInterface;
 import servers.misc.RoomType;
 
 public class Client {
 
 	private HotelGuestHubInterface guestHub;
 	private HotelManagerHubInterface managerHub;
+	
+	private HotelGuestInterface guest;
+	private String guestId;
+	private HotelManagerInterface manager;
 
 	public Client(){};
 
@@ -38,14 +43,16 @@ public class Client {
 		else if (gORm.equalsIgnoreCase("g")){
 			try {
 				client.guestHub = (HotelGuestHubInterface) Naming.lookup("rmi://localhost:2020/guestHub");
-				String guestId = client.promptForGuestId();
-				HotelGuestInterface guest = (HotelGuestInterface) client.guestHub.getGuestById(guestId);
-				System.out.println("** You are logged in as Guest " + guestId);
+				//client.guestId = client.promptForGuestId();
+				client.guestId = "1234567890";
+				client.guest = (HotelGuestInterface) client.guestHub.getGuestById(client.guestId);
+				System.out.println("** You are logged in as Guest " + client.guestId);
 				System.out.println("----------------------------------------");
 
 				// LOGIN TO HOTEL
 				int hotelId = client.promptForHotelId();
-				guest.logInToHotel(hotelId);
+				System.out.println("Log into a hotel:");
+				client.guest.logInToHotel(hotelId);
 
 				int choice = client.promptForGuestAction();
 				boolean success;
@@ -57,9 +64,6 @@ public class Client {
 					success = client.cancelReservation();
 				case 3:
 					success = client.checkAvailability();
-				default:
-					System.out.println("ERROR Incorrect action choice");
-					break;
 				}
 
 			} catch (Exception e1) {
@@ -73,8 +77,54 @@ public class Client {
 	}
 
 	private boolean checkAvailability() {
+//		int preferredHotel = promptForHotelId();
+//		RoomType roomType = promptForRoomType();
+//		Calendar checkIn = promptForDate("Check In");
+//		Calendar checkOut = promptForDate("Check Out");
+		int preferredHotel = 0;
+		RoomType roomType = RoomType.FAMILY;
+		Calendar checkIn = new GregorianCalendar();
+		checkIn.set(2015, 11, 10);
+		Calendar checkOut = new GregorianCalendar();
+		checkOut.set(2015, 11, 20);
 		
+		try {
+			System.out.println(guest.checkAvailability(guestId, preferredHotel, roomType, checkIn, checkOut));
+			return true;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
+	}
+
+	private RoomType promptForRoomType() {
+		System.out.println("What type of room would you like?");
+		System.out.println("1) Single");
+		System.out.println("2) Double");
+		System.out.println("3) Family");
+		boolean valid = false;
+		int choice = 0; //default
+		while (!valid){
+			Scanner scanner = new Scanner(System.in);
+			choice = scanner.nextInt();
+			if (choice < 1 || choice > 3){
+				System.out.println("Please enter 1, 2, or 3");
+			}
+			else {
+				valid = true;
+			}
+		}
+		switch (choice) {
+		case 1:
+			return RoomType.SINGLE;
+		case 2:
+			return RoomType.DOUBLE;
+		case 3:
+			return RoomType.FAMILY;
+		default:
+			return null;
+		}
 	}
 
 	private boolean cancelReservation() {
@@ -144,7 +194,7 @@ public class Client {
 	}
 
 	private int promptForHotelId(){
-		System.out.println("Which hotel would you like to log in to?");
+		System.out.println("Which hotel would you to select? (please enter a number)");
 		boolean valid = false;
 		int hotelId = 1; //default
 		while (!valid){
@@ -157,12 +207,12 @@ public class Client {
 		return hotelId;
 	}
 
-	private static Calendar promptForDate(){
+	private Calendar promptForDate(String dateUse){
 		Scanner scanner = new Scanner(System.in);
 		int date = 1;
 		int month = 1;
 		int year = 2000;
-		System.out.println(" | Date:");
+		System.out.println(" | Date of " + dateUse + ":");
 
 		// DATE (DAY OF MONTH)
 		boolean dateValid = false;

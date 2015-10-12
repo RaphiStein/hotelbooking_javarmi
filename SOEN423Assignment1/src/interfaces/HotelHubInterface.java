@@ -16,5 +16,5 @@ import servers.misc.RoomType;
 public interface HotelHubInterface extends Remote {
 
 	public HotelInterface getHotelById(int id) throws RemoteException;
-	public String checkAvailability(int guestId, int preferredHotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
+	public String checkAvailability(String guestId, int preferredHotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
 }
