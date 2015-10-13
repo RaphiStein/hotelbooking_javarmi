@@ -7,13 +7,13 @@ import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import interfaces.HotelGuestInterface;
 import interfaces.HotelHubInterface;
 import interfaces.HotelInterface;
 import servers.HotelHub;
+import servers.misc.Calendar;
 import servers.misc.Room;
 
 public class Guest implements HotelGuestInterface, Serializable {
@@ -28,13 +28,16 @@ public class Guest implements HotelGuestInterface, Serializable {
 	 */
 	private static final long serialVersionUID = -4923801110152732444L;
 
+	/*
 	public Guest(HotelInterface hotel){
 		this.currentHotel = hotel;
 	}
 	public Guest(){
 		System.out.println("Guest on Server created");
 	}
+	*/
 	public Guest(String id){
+		reservations = new HashMap<Calendar, Room>();
 		System.out.println("Guest-" + id + " on Server created");
 		this.guestId = id;
 	}
@@ -52,7 +55,7 @@ public class Guest implements HotelGuestInterface, Serializable {
 	}
 
 	@Override
-	public boolean reserveRoom(int guestId, int hotelId, servers.misc.RoomType roomType, Calendar checkIn, Calendar checkOut)
+	public boolean reserveRoom(String guestId, int hotelId, servers.misc.RoomType roomType, Calendar checkIn, Calendar checkOut)
 			throws RemoteException {
 		HotelInterface hotel = hotelHub.getHotelById(hotelId);
 		Room room = hotel.reserveRoom(guestId, hotelId, roomType, checkIn, checkOut);

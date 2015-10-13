@@ -2,12 +2,12 @@ package servers;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
 
 import interfaces.HotelHubInterface;
 import interfaces.HotelInterface;
+import servers.misc.Calendar;
 import servers.misc.RoomType;
 import servers.objects.Hotel;
 
@@ -26,7 +26,7 @@ public class HotelHub implements HotelHubInterface{
 				Hotel hotel;
 				if (shouldPopulate){
 					Random random = new Random();
-					hotel = new Hotel(i, random.nextInt(10), random.nextInt(100)+100, random.nextInt(10), random.nextInt(100)+100, random.nextInt(10), random.nextInt(100)+100);					
+					hotel = new Hotel(i, random.nextInt(10)+10, random.nextInt(100)+100, random.nextInt(10)+5, random.nextInt(100)+200, random.nextInt(10)+1, random.nextInt(100)+300);					
 				}
 				else 
 					hotel = new Hotel(i);					

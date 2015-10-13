@@ -2,8 +2,8 @@ package interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Calendar;
 
+import servers.misc.Calendar;
 import servers.misc.RoomType;
 
 /**

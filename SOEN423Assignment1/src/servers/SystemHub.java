@@ -10,8 +10,14 @@ import servers.objects.Guest;
 import servers.objects.Hotel;
 import servers.objects.Manager;
 
+/**
+ * CURRENTLY NOT IN USE
+ * @author Raphi Stein 2015
+ *
+ */
 public class SystemHub{
 	
+	/*
 	private static int serverId;
 	
 	private Hotel hotel;
@@ -51,5 +57,5 @@ public class SystemHub{
 			e.printStackTrace();
 		}
 	}
-
+*/
 }

@@ -2,9 +2,9 @@ package servers.objects;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import interfaces.HotelInterface;
+import servers.misc.Calendar;
 import servers.misc.Room;
 import servers.misc.RoomType;
 
@@ -71,6 +71,10 @@ public class Hotel implements HotelInterface{
 	public int getHotelId() throws RemoteException {
 		return hotelId;
 	}
+	/**
+	 * Returns a String in the form "int1 int2" where int1 represents the number of available rooms, and int2
+	 * the price of such a room
+	 */
 	@Override
 	public String checkAvailability(RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException {
 		int count = 0;
@@ -86,14 +90,21 @@ public class Hotel implements HotelInterface{
 			return null;
 		}
 	}
+	/**
+	 * Called by objects.Guest on specific hotel to book a room at said hotel 
+	 */
 	@Override
-	public Room reserveRoom(int guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut)
+	public Room reserveRoom(String guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut)
 			throws RemoteException {
 		// Find available room
 		Room room = getAvailableRoom(roomType, checkIn, checkOut);
-		room.bookRoom(checkIn, checkOut);
-		return room;
+		if (room != null) {
+			room.bookRoom(checkIn, checkOut);			
+			return room;
+		}
+		return null; // no available room found
 	}
+	
 	
 	private int getAvailableRoomsData(ArrayList<Room> roomList, Calendar checkIn, Calendar checkOut){
 		int count = 0;

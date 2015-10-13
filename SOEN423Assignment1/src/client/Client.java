@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -13,13 +12,14 @@ import interfaces.HotelGuestHubInterface;
 import interfaces.HotelGuestInterface;
 import interfaces.HotelManagerHubInterface;
 import interfaces.HotelManagerInterface;
+import servers.misc.Calendar;
 import servers.misc.RoomType;
 
 public class Client {
 
 	private HotelGuestHubInterface guestHub;
 	private HotelManagerHubInterface managerHub;
-	
+
 	private HotelGuestInterface guest;
 	private String guestId;
 	private HotelManagerInterface manager;
@@ -30,64 +30,80 @@ public class Client {
 		Client client = new Client();
 
 		System.out.println("Welcome Soen-423 Hotel Chain");
-		System.out.println("Are you a guest or manager? (g/m)");
 
-		String gORm = client.promptForClientType(); //guest or manager
+		boolean clientActive = true;
 
-		// Launch the requested client
-		// MANAGER CLIENT SYSTEM REQUESTED
-		if (gORm.equalsIgnoreCase("m")){
-			System.out.println("NOT YET IMPLEMENTED");
-		}
-		// GUEST CLIENT SYSTEM REQUESTED
-		else if (gORm.equalsIgnoreCase("g")){
-			try {
-				client.guestHub = (HotelGuestHubInterface) Naming.lookup("rmi://localhost:2020/guestHub");
-				//client.guestId = client.promptForGuestId();
-				client.guestId = "1234567890";
-				client.guest = (HotelGuestInterface) client.guestHub.getGuestById(client.guestId);
-				System.out.println("** You are logged in as Guest " + client.guestId);
-				System.out.println("----------------------------------------");
+		while (clientActive){
+			System.out.println("Are you a guest or manager? (g/m)");
 
-				// LOGIN TO HOTEL
-				int hotelId = client.promptForHotelId();
-				System.out.println("Log into a hotel:");
-				client.guest.logInToHotel(hotelId);
+			String gORm = client.promptForClientType(); //guest or manager
 
-				int choice = client.promptForGuestAction();
-				boolean success;
-				switch (choice) {
-				case 1:
-					success = client.makeReservation();
-					break;
-				case 2:
-					success = client.cancelReservation();
-				case 3:
-					success = client.checkAvailability();
-				}
+			// Launch the requested client
+			// MANAGER CLIENT SYSTEM REQUESTED
+			if (gORm.equalsIgnoreCase("m")){
+				System.out.println("NOT YET IMPLEMENTED");
+			}
+			// GUEST CLIENT SYSTEM REQUESTED
+			else if (gORm.equalsIgnoreCase("g")){
+				try {
+					client.guestHub = (HotelGuestHubInterface) Naming.lookup("rmi://localhost:2020/guestHub");
+					//client.guestId = client.promptForGuestId();
+					client.guestId = "1234567890";
+					client.guest = (HotelGuestInterface) client.guestHub.getGuestById(client.guestId);
+					System.out.println("** You are logged in as Guest " + client.guestId);
+					System.out.println("----------------------------------------");
 
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} 
-		}
-		else {
-			System.out.println("ERROR Some strange problem has occured");
+					// LOGIN TO HOTEL
+					int hotelId = client.promptForHotelId();
+					System.out.println("Log into a hotel:");
+					client.guest.logInToHotel(hotelId);
+
+					boolean guestActive = true;
+					while (guestActive){
+						int choice = client.promptForGuestAction();
+						boolean success;
+						switch (choice) {
+						case 1:
+							success = client.makeReservation();
+							if (success) System.out.println("Reservation made successfully!");
+							else System.out.println("Reservation unable to be completed. Please try again");
+							break;
+						case 2:
+							success = client.cancelReservation();
+							if (success) System.out.println("Reservation cancelled successfully!");
+							else System.out.println("Cancellation unable to be completed. Please try again");
+							break;
+						case 3:
+							success = client.checkAvailability();
+							break;
+						case 4:
+							guestActive = false;
+							clientActive = false;
+							client.guest = null;
+							break;
+						}
+					}
+
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+			}
+			else {
+				System.out.println("ERROR Some strange problem has occured");
+			}
 		}
 	}
 
 	private boolean checkAvailability() {
-//		int preferredHotel = promptForHotelId();
-//		RoomType roomType = promptForRoomType();
-//		Calendar checkIn = promptForDate("Check In");
-//		Calendar checkOut = promptForDate("Check Out");
+		//		int preferredHotel = promptForHotelId();
+		//		RoomType roomType = promptForRoomType();
+		//		Calendar checkIn = promptForDate("Check In");
+		//		Calendar checkOut = promptForDate("Check Out");
 		int preferredHotel = 0;
 		RoomType roomType = RoomType.FAMILY;
-		Calendar checkIn = new GregorianCalendar();
-		checkIn.set(2015, 11, 10);
-		Calendar checkOut = new GregorianCalendar();
-		checkOut.set(2015, 11, 20);
-		
+		servers.misc.Calendar checkIn = new servers.misc.Calendar(2015, 11, 10);
+		servers.misc.Calendar checkOut = new servers.misc.Calendar(2015, 11, 12);
 		try {
 			System.out.println(guest.checkAvailability(guestId, preferredHotel, roomType, checkIn, checkOut));
 			return true;
@@ -133,8 +149,22 @@ public class Client {
 	}
 
 	private boolean makeReservation() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success = false;
+//		int hotelId = promptForHotelId();
+		//		RoomType roomType = promptForRoomType();
+		//		Calendar checkIn = promptForDate("Check In");
+		//		Calendar checkOut = promptForDate("Check Out");
+		int hotelId = 0;
+		RoomType roomType = RoomType.FAMILY;
+		Calendar checkIn = new Calendar(2015, 11, 10);
+		Calendar checkOut = new Calendar(2015, 11, 12);
+		try {
+			success = guest.reserveRoom(guestId, hotelId, roomType, checkIn, checkOut);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 	private int promptForGuestAction() {
@@ -142,13 +172,14 @@ public class Client {
 		System.out.println("1) Make a reservation");
 		System.out.println("2) Cancel a reservtion");
 		System.out.println("3) Check availabilty");
+		System.out.println("4) Logout");
 		boolean valid = false;
 		int choice = 0; //default
 		while (!valid){
 			Scanner scanner = new Scanner(System.in);
 			choice = scanner.nextInt();
-			if (choice < 1 || choice > 3){
-				System.out.println("Please enter 1, 2, or 3");
+			if (choice < 1 || choice > 4){
+				System.out.println("Please enter 1, 2, 3, or 4");
 			}
 			else {
 				valid = true;
@@ -253,9 +284,9 @@ public class Client {
 			}
 		}
 
-		Calendar calendar = new GregorianCalendar(year, month, date);
-		
+		Calendar calendar = new servers.misc.Calendar(year, month, date);
+		calendar.clear(Calendar.MILLISECOND);
 		return calendar;
-		
+
 	}
 }

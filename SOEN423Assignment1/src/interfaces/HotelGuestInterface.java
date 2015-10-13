@@ -2,7 +2,8 @@ package interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Calendar;
+
+import servers.misc.Calendar;
 import servers.misc.RoomType;
 
 /**
@@ -19,7 +20,7 @@ public interface HotelGuestInterface extends Remote{
 	// CUSTOM METHODS
 	public boolean logInToHotel(int hotelId) throws RemoteException;
 	// REQUIRED METHODS (i.e. reserveRooms, cancelRooms, etc)
-	public boolean reserveRoom(int guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
+	public boolean reserveRoom(String guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
 	public boolean cancelRoom(int guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;	
 	public String checkAvailability(String guestId, int preferredHotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
 }
