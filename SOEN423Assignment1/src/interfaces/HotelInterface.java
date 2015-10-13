@@ -15,11 +15,14 @@ import servers.objects.Guest;
  */
 public interface HotelInterface extends Remote {
 	
-	public Guest getGuest() throws RemoteException;
-	public String getHotelGreeting() throws RemoteException;
+	// ADDED
 	public int getHotelId() throws RemoteException;
+	public String serviceReport(Calendar date);
 	
+	//REQUIRED
 	public String checkAvailability(RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
 	public Room reserveRoom(String guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
+	public String printStatus(int hotelId, Calendar date);
+	
 
 }

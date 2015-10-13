@@ -48,7 +48,7 @@ public class Client {
 				try {
 					client.guestHub = (HotelGuestHubInterface) Naming.lookup("rmi://localhost:2020/guestHub");
 					//client.guestId = client.promptForGuestId();
-					client.guestId = "1234567890";
+					client.guestId = "1234567890"; // FOR TESTING
 					client.guest = (HotelGuestInterface) client.guestHub.getGuestById(client.guestId);
 					System.out.println("** You are logged in as Guest " + client.guestId);
 					System.out.println("----------------------------------------");

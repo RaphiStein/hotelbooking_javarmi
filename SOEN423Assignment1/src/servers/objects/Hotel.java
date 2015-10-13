@@ -2,6 +2,7 @@ package servers.objects;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import interfaces.HotelInterface;
 import servers.misc.Calendar;
@@ -57,15 +58,6 @@ public class Hotel implements HotelInterface{
 		}
 	}
 
-	@Override
-	public Guest getGuest() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String getHotelGreeting(){
-		return "Ola!";
-	}
 
 	@Override
 	public int getHotelId() throws RemoteException {
@@ -138,6 +130,51 @@ public class Hotel implements HotelInterface{
 		default:
 			return null;
 		}
+	}
+	@Override
+	public String serviceReport(Calendar date) {
+		ArrayList<Room> roomsBeingCheckedOutOfOnDate = new ArrayList<Room>();
+		ArrayList<ArrayList<Room>> allRoomLists = new ArrayList<ArrayList<Room>>();
+		allRoomLists.add(singleRoomList);
+		allRoomLists.add(doubleRoomList);
+		allRoomLists.add(familyRoomList);
+		
+		for (int i = 0; i < allRoomLists.size(); i++) {
+			ArrayList<Room> currentRoomList = allRoomLists.get(i);
+			for (int j = 0; j < currentRoomList.size(); j++) {
+				Room currentRoom = currentRoomList.get(j);
+				if (currentRoom.hasCheckout(date)){
+					roomsBeingCheckedOutOfOnDate.add(currentRoom);
+				}
+			}
+		}
+		
+		//String report = "Service report for Hotel-" + date.getTime() + "\n";
+		String report = "";
+		for (int i = 0; i < roomsBeingCheckedOutOfOnDate.size(); i++) {
+			Room currentRoom = roomsBeingCheckedOutOfOnDate.get(i);
+			report +=  "\nRoom: " + currentRoom.getRoomId();
+		}
+		return report;
+	}
+	@Override
+	public String printStatus(int hotelId, Calendar date) {
+		ArrayList<ArrayList<Room>> allRoomLists = new ArrayList<ArrayList<Room>>();
+		allRoomLists.add(singleRoomList);
+		allRoomLists.add(doubleRoomList);
+		allRoomLists.add(familyRoomList);
+		
+		String report = "";
+		for (int i = 0; i < allRoomLists.size(); i++) {
+			ArrayList<Room> currentRoomList = allRoomLists.get(i);
+			for (int j = 0; j < currentRoomList.size(); j++) {
+				Room currentRoom = currentRoomList.get(j);
+				report += "Room " + currentRoom.getRoomId() + ":   " + currentRoom.getRoomType() + "   " + currentRoom.getStatusOnDate(date);
+			}
+		}
+		
+		return report;
+		
 	}
 
 }
