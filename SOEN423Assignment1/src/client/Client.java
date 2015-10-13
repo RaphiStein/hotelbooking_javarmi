@@ -41,17 +41,42 @@ public class Client {
 			// Launch the requested client
 			// MANAGER CLIENT SYSTEM REQUESTED
 			if (gORm.equalsIgnoreCase("m")){
-				System.out.println("NOT YET IMPLEMENTED");
+				try {
+					client.managerHub = (HotelManagerHubInterface) Naming.lookup("rmi://localhost:2020/managerHub");
+					client.manager = (HotelManagerInterface) client.managerHub.getManager();
+					System.out.println("** You are logged in as Manager **");
+					System.out.println("----------------------------------");
+
+					boolean managerActive = true;
+					while(managerActive){
+						int choice = client.promptForManagerAction();
+						switch (choice) {
+						case 1:
+							int hotelId = client.promptForHotelId();
+							Calendar serviceDate = client.promptForDate("Service Date");
+							String report = client.manager.serviceReport(hotelId, serviceDate);
+							System.out.println("Service Report");
+							System.out.println(report);
+							break;
+						case 2:
+							break;
+						default:
+							System.out.println("");
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			// GUEST CLIENT SYSTEM REQUESTED
 			else if (gORm.equalsIgnoreCase("g")){
 				try {
 					client.guestHub = (HotelGuestHubInterface) Naming.lookup("rmi://localhost:2020/guestHub");
 					//client.guestId = client.promptForGuestId();
-					client.guestId = "1234567890";
+					client.guestId = "1234567890"; // FOR TESTING
 					client.guest = (HotelGuestInterface) client.guestHub.getGuestById(client.guestId);
-					System.out.println("** You are logged in as Guest " + client.guestId);
-					System.out.println("----------------------------------------");
+					System.out.println("** You are logged in as Guest " + client.guestId + " **");
+					System.out.println("-------------------------------------------");
 
 					// LOGIN TO HOTEL
 					int hotelId = client.promptForHotelId();
@@ -78,7 +103,6 @@ public class Client {
 							break;
 						case 4:
 							guestActive = false;
-							clientActive = false;
 							client.guest = null;
 							break;
 						}
@@ -93,6 +117,27 @@ public class Client {
 				System.out.println("ERROR Some strange problem has occured");
 			}
 		}
+		System.out.println("System shutting down...");
+		System.exit(0);
+	}
+
+	private int promptForManagerAction() {
+		System.out.println("What would you like to do?");
+		System.out.println("1) Service Report");
+		System.out.println("2) Print Status");
+		boolean valid = false;
+		int choice = 0; //default
+		while (!valid){
+			Scanner scanner = new Scanner(System.in);
+			choice = scanner.nextInt();
+			if (choice < 1 || choice > 2){
+				System.out.println("Please enter 1, or 2");
+			}
+			else {
+				valid = true;
+			}
+		}
+		return choice;
 	}
 
 	private boolean checkAvailability() {
@@ -150,13 +195,14 @@ public class Client {
 
 	private boolean makeReservation() {
 		boolean success = false;
-//		int hotelId = promptForHotelId();
+		//		int hotelId = promptForHotelId();
 		//		RoomType roomType = promptForRoomType();
 		//		Calendar checkIn = promptForDate("Check In");
 		//		Calendar checkOut = promptForDate("Check Out");
 		int hotelId = 0;
 		RoomType roomType = RoomType.FAMILY;
 		Calendar checkIn = new Calendar(2015, 11, 10);
+		System.out.println("Checkin: " + checkIn.getTime());
 		Calendar checkOut = new Calendar(2015, 11, 12);
 		try {
 			success = guest.reserveRoom(guestId, hotelId, roomType, checkIn, checkOut);

@@ -14,11 +14,11 @@ import servers.misc.RoomType;
  */
 public interface HotelGuestInterface extends Remote{
 	
-	public void sayHiToGuest() throws RemoteException;
-	public int getHotelId() throws RemoteException;
 	
 	// CUSTOM METHODS
 	public boolean logInToHotel(int hotelId) throws RemoteException;
+	public int getHotelId() throws RemoteException;
+	
 	// REQUIRED METHODS (i.e. reserveRooms, cancelRooms, etc)
 	public boolean reserveRoom(String guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
 	public boolean cancelRoom(int guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;	

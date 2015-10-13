@@ -87,4 +87,25 @@ public class Room implements Serializable {
 		}
 		
 	}
+
+	public boolean hasCheckout(Calendar date) {
+		for (Calendar checkout : checkInCheckOutPairs.values()) {
+		    if (checkout.equals(date)){
+		    	return true;
+		    }
+		} 
+		return false;
+	}
+
+	public RoomType getRoomType() {
+		return roomtype;
+	}
+
+	public String getStatusOnDate(Calendar date) {
+		if (occupiedDates.contains(date)){
+			return "OCCUPIED";
+		}
+		else
+			return "VACANT";
+	}
 }

@@ -11,7 +11,9 @@ public class ManagerHub implements HotelManagerHubInterface{
 
 	@Override
 	public Manager getManager() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		if (manager == null){
+			manager = new Manager();
+		}
+		return manager;
 	}
 }

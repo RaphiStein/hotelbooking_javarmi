@@ -46,12 +46,6 @@ public class Guest implements HotelGuestInterface, Serializable {
 		this.guestId = id;
 	}
 
-
-	@Override
-	public void sayHiToGuest() throws RemoteException {
-		System.out.println(currentHotel.getHotelGreeting());
-	}
-
 	@Override
 	public int getHotelId() throws RemoteException {
 
