@@ -27,11 +27,11 @@ public class Client {
 	private HotelGuestInterface guest;
 	private String guestId;
 	private HotelManagerInterface manager;
-	
+
 	// LOGGING
 	private static final Logger LOGGER = Logger.getLogger(Client.class.getName());
 	private static FileHandler fileHandler;
-	
+
 	// Client CONSTRUCTOR
 	public Client(){};
 
@@ -96,7 +96,7 @@ public class Client {
 					int hotelId = client.promptForHotelId();
 					System.out.println("Log into a hotel:");
 					client.guest.logInToHotel(hotelId);
-					*/
+					 */
 
 					boolean guestActive = true;
 					while (guestActive){
@@ -124,6 +124,7 @@ public class Client {
 							client.guest = null;
 							break;
 						}
+						System.out.println("\n");
 					}
 
 				} catch (Exception e1) {
@@ -159,14 +160,15 @@ public class Client {
 	}
 
 	private boolean checkAvailability() {
-		//		int preferredHotel = promptForHotelId();
-		//		RoomType roomType = promptForRoomType();
-		//		Calendar checkIn = promptForDate("Check In");
-		//		Calendar checkOut = promptForDate("Check Out");
-		int preferredHotel = 0;
-		RoomType roomType = RoomType.FAMILY;
-		servers.misc.Calendar checkIn = new servers.misc.Calendar(2015, 11, 10);
-		servers.misc.Calendar checkOut = new servers.misc.Calendar(2015, 11, 12);
+		int preferredHotel = promptForHotelId();
+		RoomType roomType = promptForRoomType();
+		Calendar checkIn = promptForDate("Check In");
+		Calendar checkOut = promptForDate("Check Out");
+		// QUICK VALUES FOR TESTING
+		//		int preferredHotel = 0;
+		//		RoomType roomType = RoomType.FAMILY;
+		//		servers.misc.Calendar checkIn = new servers.misc.Calendar(2015, 11, 10);
+		//		servers.misc.Calendar checkOut = new servers.misc.Calendar(2015, 11, 12);
 		try {
 			System.out.println(guest.checkAvailability(guestId, preferredHotel, roomType, checkIn, checkOut));
 			return true;
@@ -213,15 +215,16 @@ public class Client {
 
 	private boolean makeReservation() {
 		boolean success = false;
-		//		int hotelId = promptForHotelId();
-		//		RoomType roomType = promptForRoomType();
-		//		Calendar checkIn = promptForDate("Check In");
-		//		Calendar checkOut = promptForDate("Check Out");
-		int hotelId = 0;
-		RoomType roomType = RoomType.FAMILY;
-		Calendar checkIn = new Calendar(2015, 11, 10);
-		System.out.println("Checkin: " + checkIn.getTime());
-		Calendar checkOut = new Calendar(2015, 11, 12);
+		int hotelId = promptForHotelId();
+		RoomType roomType = promptForRoomType();
+		Calendar checkIn = promptForDate("Check In");
+		Calendar checkOut = promptForDate("Check Out");
+		//		int hotelId = 0;
+		//		RoomType roomType = RoomType.FAMILY;
+		//		Calendar checkIn = new Calendar(2015, 11, 10);
+		//		System.out.println("Checkin: " + checkIn.getTime());
+		//		Calendar checkOut = new Calendar(2015, 11, 12);
+
 		try {
 			success = guest.reserveRoom(guestId, hotelId, roomType, checkIn, checkOut);
 		} catch (RemoteException e) {
@@ -307,8 +310,16 @@ public class Client {
 		int date = 1;
 		int month = 1;
 		int year = 2000;
-		System.out.println(" | Date of " + dateUse + ":");
-
+		System.out.println(" | Date of " + dateUse + ": (i.e 10-10-2015)");
+		
+		// EXPRESS VERSION (no error checking though)
+		String dateInputStr = scanner.next();
+		String[] split = dateInputStr.split("-");
+		date = Integer.parseInt(split[0]);
+		month = Integer.parseInt(split[1]);
+		year = Integer.parseInt(split[2]);
+		
+		/*
 		// DATE (DAY OF MONTH)
 		boolean dateValid = false;
 		while (!dateValid){
@@ -347,13 +358,14 @@ public class Client {
 				System.out.println("Invalid. Please enter a year between 2014 and 2025");
 			}
 		}
+		*/
 
 		Calendar calendar = new servers.misc.Calendar(year, month, date);
 		calendar.clear(Calendar.MILLISECOND);
 		return calendar;
 
 	}
-	
+
 	private static void configureLogger(String guestId){
 		try {
 			fileHandler = new FileHandler("./src/client/logs/" + guestId + ".txt");
