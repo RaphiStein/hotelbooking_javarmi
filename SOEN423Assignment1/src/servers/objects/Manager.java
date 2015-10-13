@@ -21,7 +21,7 @@ public class Manager implements HotelManagerInterface, Serializable {
 	 */
 	private static final long serialVersionUID = -5729480726400084600L;
 
-	public Manager(Remote hotel) {
+	public Manager() {
 		// Get Hotel from HotelHub
 		try {
 			hotelHub = (HotelHubInterface) Naming.lookup("rmi://localhost:2021/hotelHub");
@@ -42,11 +42,12 @@ public class Manager implements HotelManagerInterface, Serializable {
 		return "Hi Manager";
 	}
 	
-	public void serviceReport(int hotelId, Calendar serviceDate) throws RemoteException {
+	public String serviceReport(int hotelId, Calendar serviceDate) throws RemoteException {
 		HotelInterface hotel = hotelHub.getHotelById(hotelId);
+		String report = hotel.serviceReport(serviceDate);
 		System.out.println("Service Report for Hotel-" + hotelId + " on " + serviceDate.getTime() + ":\n");
 		System.out.println(hotel.serviceReport(serviceDate));
-
+		return report;
 	}
 	@Override
 	public String printStatus(int hotelId, Calendar date) throws RemoteException {

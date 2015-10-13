@@ -17,12 +17,12 @@ public interface HotelInterface extends Remote {
 	
 	// ADDED
 	public int getHotelId() throws RemoteException;
-	public String serviceReport(Calendar date);
+	public String serviceReport(Calendar date) throws RemoteException;
+	public String printStatus(int hotelId, Calendar date) throws RemoteException;
 	
 	//REQUIRED
 	public String checkAvailability(RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
 	public Room reserveRoom(String guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;
-	public String printStatus(int hotelId, Calendar date);
 	
 
 }

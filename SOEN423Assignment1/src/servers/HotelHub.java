@@ -46,6 +46,14 @@ public class HotelHub implements HotelHubInterface{
 		if (hotels.containsKey(id)){
 			return hotels.get(id);
 		}
+		else {
+			try {
+				throw new Exception("No such hotel found");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return null;
 	}
 	@Override

@@ -9,6 +9,6 @@ public interface HotelManagerInterface extends Remote {
 
 	public String sayHiToManager() throws RemoteException;
 	
-	public void serviceReport(int hotelId, Calendar serviceDate) throws RemoteException;
+	public String serviceReport(int hotelId, Calendar serviceDate) throws RemoteException;
 	public String printStatus(int hotelId, Calendar date) throws RemoteException;
 }
