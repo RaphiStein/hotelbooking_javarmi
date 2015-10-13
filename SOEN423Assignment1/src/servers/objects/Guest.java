@@ -7,22 +7,26 @@ import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import interfaces.HotelGuestInterface;
 import interfaces.HotelHubInterface;
 import interfaces.HotelInterface;
 import servers.HotelHub;
 import servers.misc.Calendar;
+import servers.misc.GuestReservation;
 import servers.misc.Room;
 
 public class Guest implements HotelGuestInterface, Serializable {
 	private HotelHubInterface hotelHub; // reference to the common HotelHub 
 	private HotelInterface currentHotel; // the hotel the user is currently logged into
 	private String guestId;
-	
-	private HashMap<Calendar, Room> reservations;
-	
+
+	private HashMap<Calendar, ArrayList<GuestReservation>> reservations;
+
+
 	/**
 	 * 
 	 */
@@ -35,14 +39,14 @@ public class Guest implements HotelGuestInterface, Serializable {
 	public Guest(){
 		System.out.println("Guest on Server created");
 	}
-	*/
+	 */
 	public Guest(String id){
-		reservations = new HashMap<Calendar, Room>();
+		reservations = new HashMap<Calendar, ArrayList<GuestReservation>>();
 		System.out.println("Guest-" + id + " on Server created");
 		this.guestId = id;
 	}
-	
-	
+
+
 	@Override
 	public void sayHiToGuest() throws RemoteException {
 		System.out.println(currentHotel.getHotelGreeting());
@@ -50,7 +54,7 @@ public class Guest implements HotelGuestInterface, Serializable {
 
 	@Override
 	public int getHotelId() throws RemoteException {
-		
+
 		return currentHotel.getHotelId();
 	}
 
@@ -60,7 +64,15 @@ public class Guest implements HotelGuestInterface, Serializable {
 		HotelInterface hotel = hotelHub.getHotelById(hotelId);
 		Room room = hotel.reserveRoom(guestId, hotelId, roomType, checkIn, checkOut);
 		if (room != null){
-			reservations.put(checkIn, room);
+			// Create Reservations
+			GuestReservation guestRes = new GuestReservation(checkIn, checkOut, room);
+			// Check if this checkIn date exists yet (i.e. if other reservations start on this date too)
+			ArrayList<GuestReservation> reservationsForCheckinDate = reservations.get(checkIn);
+			if (reservationsForCheckinDate == null){
+				reservationsForCheckinDate = new ArrayList<GuestReservation>();
+			}
+			reservationsForCheckinDate.add(guestRes);
+			reservations.put(checkIn, reservationsForCheckinDate);
 			return true;
 		}
 		else {
@@ -70,13 +82,28 @@ public class Guest implements HotelGuestInterface, Serializable {
 	@Override
 	public boolean cancelRoom(int guestId, int hotelId, servers.misc.RoomType roomType, Calendar checkIn, Calendar checkOut)
 			throws RemoteException {
-		// TODO Auto-generated method stub
+		// Look for reservation with exact checkin-checkout match
+		ArrayList<GuestReservation> potentialMatchingRooms = reservations.get(checkIn);
+		if (potentialMatchingRooms != null){
+			Iterator<GuestReservation> iter = potentialMatchingRooms.iterator();
+			while (iter.hasNext()) {
+				GuestReservation guestReservation = iter.next();
+				if (guestReservation.getCheckOut().equals(checkOut)){
+					// Match is found
+					guestReservation.cancel();
+					iter.remove(); //remove this reservation from arraylist in current date
+				}
+			}
+		}
+
+
+
 		return false;
 	}
 	@Override
 	public String checkAvailability(String guestId, int preferredHotelId, servers.misc.RoomType roomType, Calendar checkIn,
 			Calendar checkOut) throws RemoteException {
-		
+
 		String availability = hotelHub.checkAvailability(guestId, preferredHotelId, roomType, checkIn, checkOut);
 		//System.out.println(availability);
 		return availability;
@@ -97,8 +124,8 @@ public class Guest implements HotelGuestInterface, Serializable {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
-	
+
+
+
 
 }

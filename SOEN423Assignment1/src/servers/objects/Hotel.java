@@ -38,21 +38,21 @@ public class Hotel implements HotelInterface{
 		this.singleRoomPrice = priceOfSingleRooms;
 		singleRoomList = new ArrayList<Room>(numberOfSingleRooms);
 		for (int i = 0; i < numberOfSingleRooms; i++) {
-			Room room = new Room(RoomType.SINGLE, priceOfSingleRooms);
+			Room room = new Room(RoomType.SINGLE, priceOfSingleRooms, hotelId);
 			singleRoomList.add(room);
 		}
 		// DOUBLE ROOMS
 		this.doubleRoomPrice = priceOfDoubleRooms;
 		doubleRoomList = new ArrayList<Room>(numberOfDoubleRooms);
 		for (int i = 0; i < numberOfDoubleRooms; i++) {
-			Room room = new Room(RoomType.DOUBLE, priceOfDoubleRooms);
+			Room room = new Room(RoomType.DOUBLE, priceOfDoubleRooms, hotelId);
 			doubleRoomList.add(room);
 		}
 		// FAMILY ROOMS
 		this.familyRoomPrice = priceOfFamilyRooms;
 		familyRoomList = new ArrayList<Room>(numberOfFamilyRooms);
 		for (int i = 0; i < numberOfFamilyRooms; i++) {
-			Room room = new Room(RoomType.FAMILY, priceOfFamilyRooms);
+			Room room = new Room(RoomType.FAMILY, priceOfFamilyRooms, hotelId);
 			familyRoomList.add(room);
 		}
 	}
