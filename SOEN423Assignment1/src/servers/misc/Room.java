@@ -1,7 +1,7 @@
 package servers.misc;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -18,17 +18,22 @@ public class Room implements Serializable {
 	private int roomId;
 	private RoomType roomtype;
 	private int price;
+	/**
+	 * The hotel this Room belongs to
+	 */
+	private int hotelId;
 	
-	private SortedSet<servers.misc.Calendar> occupiedDates;
-	private Map<servers.misc.Calendar, servers.misc.Calendar> checkInCheckOutPairs;
+	private SortedSet<Calendar> occupiedDates;
+	private Map<Calendar, Calendar> checkInCheckOutPairs;
 	
-	public Room(RoomType roomType, int price) {
+	public Room(RoomType roomType, int price, int hotelId) {
 		this.roomtype = roomType;
 		this.price = price;
 		// Data structures
-		occupiedDates = new TreeSet<servers.misc.Calendar>();
-		checkInCheckOutPairs = new TreeMap<servers.misc.Calendar, servers.misc.Calendar>();
+		occupiedDates = new TreeSet<Calendar>();
+		checkInCheckOutPairs = new TreeMap<Calendar, Calendar>();
 		this.roomId = ++Room.roomIdCounter;
+		this.hotelId = hotelId;
 	}
 	
 	public void bookRoom(Calendar checkIn, Calendar checkout){
@@ -50,5 +55,36 @@ public class Room implements Serializable {
 			}
 		}
 		return true;
+	}
+	public Calendar getCheckoutDate(Calendar checkin){
+		return checkInCheckOutPairs.get(checkin);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		Room room = (Room) obj;
+		if (roomId == room.getRoomId()){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public int getRoomId(){
+		return roomId;
+	}
+	
+	public void cancel(Calendar checkIn, Calendar checkOut){
+		// TWO PARTS:
+		// 1) Remove checkInCheckOut pair
+		checkInCheckOutPairs.remove(checkIn);
+		// 2) Update occupiedDates set
+		Iterator<Calendar> iter = occupiedDates.iterator();
+		while (iter.hasNext()){
+			Calendar cal = iter.next();
+			if (cal.equals(checkIn) || (cal.isLaterThan(checkIn) && cal.isEarlierThan(checkOut))){
+				iter.remove();
+			}
+		}
+		
 	}
 }
