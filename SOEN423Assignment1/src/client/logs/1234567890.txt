@@ -1,4 +1,22 @@
-Oct 13, 2015 6:32:19 PM client.Client configureLogger
+Oct 13, 2015 7:27:35 PM client.Client configureLogger
 INFO: LOGGER Configured for Guest 1234567890
-Oct 13, 2015 6:32:22 PM client.Client main
+Oct 13, 2015 7:27:38 PM client.Client main
+INFO: Make Reservation
+Oct 13, 2015 7:28:21 PM client.Client configureLogger
+INFO: LOGGER Configured for Guest 1234567890
+Oct 13, 2015 7:28:23 PM client.Client main
+INFO: Cancel Reservation Reservation
+Oct 13, 2015 7:29:47 PM client.Client main
+INFO: Check Availability
+Oct 13, 2015 7:31:06 PM client.Client configureLogger
+INFO: LOGGER Configured for Guest 1234567890
+Oct 13, 2015 7:31:09 PM client.Client main
+INFO: Make Reservation
+Oct 13, 2015 7:31:22 PM client.Client main
+INFO: Make Reservation
+Oct 13, 2015 7:32:30 PM client.Client configureLogger
+INFO: LOGGER Configured for Guest 1234567890
+Oct 13, 2015 7:32:32 PM client.Client main
+INFO: Check Availability
+Oct 13, 2015 7:33:05 PM client.Client main
 INFO: Check Availability

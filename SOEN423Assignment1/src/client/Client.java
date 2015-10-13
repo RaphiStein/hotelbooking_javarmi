@@ -7,6 +7,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import java.util.TimeZone;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -72,6 +73,9 @@ public class Client {
 							report = client.manager.printStatus(hotelId, serviceDate);
 							System.out.println(report);
 							break;
+						case 3:
+							managerActive = false;
+							break;
 						default:
 							System.out.println("");
 						}
@@ -84,8 +88,8 @@ public class Client {
 			else if (gORm.equalsIgnoreCase("g")){
 				try {
 					client.guestHub = (HotelGuestHubInterface) Naming.lookup("rmi://localhost:2020/guestHub");
-					//client.guestId = client.promptForGuestId();
-					client.guestId = "1234567890"; // FOR TESTING QUICKLY
+					client.guestId = client.promptForGuestId();
+					//client.guestId = "1234567890"; // FOR TESTING QUICKLY
 					configureLogger(client.guestId);					
 					client.guest = (HotelGuestInterface) client.guestHub.getGuestById(client.guestId);
 					System.out.println("** You are logged in as Guest " + client.guestId + " **");
@@ -144,13 +148,14 @@ public class Client {
 		System.out.println("What would you like to do?");
 		System.out.println("1) Service Report");
 		System.out.println("2) Print Status");
+		System.out.println("3) Logout");
 		boolean valid = false;
 		int choice = 0; //default
 		while (!valid){
 			Scanner scanner = new Scanner(System.in);
 			choice = scanner.nextInt();
-			if (choice < 1 || choice > 2){
-				System.out.println("Please enter 1, or 2");
+			if (choice < 1 || choice > 3){
+				System.out.println("Please enter 1, 2 or 3");
 			}
 			else {
 				valid = true;
@@ -362,6 +367,7 @@ public class Client {
 
 		Calendar calendar = new servers.misc.Calendar(year, month, date);
 		calendar.clear(Calendar.MILLISECOND);
+		calendar.setTimeZone(TimeZone.getTimeZone("EST"));
 		return calendar;
 
 	}

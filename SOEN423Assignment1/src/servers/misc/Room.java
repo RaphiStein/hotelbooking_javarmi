@@ -39,7 +39,7 @@ public class Room implements Serializable {
 	public void bookRoom(Calendar checkIn, Calendar checkout){
 		// Add to occupy dates
 		int daysBetween = (int) (checkout.getTimeInMillis() - checkIn.getTimeInMillis()) / (1000 * 60 * 60 * 24);
-		for (int i = 0; i < daysBetween-1; i++) { // don't put checkOut date
+		for (int i = 0; i < daysBetween; i++) { // don't put checkOut date
 			servers.misc.Calendar addDate = (servers.misc.Calendar) checkIn.clone();
 			addDate.add(Calendar.DAY_OF_MONTH, i);
 			occupiedDates.add(addDate);

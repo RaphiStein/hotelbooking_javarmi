@@ -31,7 +31,7 @@ public class LaunchServers {
 		
 		// Launch HotelHub. This Remote object is not intended to be accessed by clients directly, but rather by the GuestHub and ManagerHub
 		try {
-			HotelHubInterface hotelHub = (HotelHubInterface) UnicastRemoteObject.exportObject(new HotelHub(NUMBER_OF_HOTELS, SHOULD_POPULATE), 2021);
+			HotelHubInterface hotelHub = (HotelHubInterface) UnicastRemoteObject.exportObject(new HotelHub(NUMBER_OF_HOTELS, new int[][]{{2, 3, 3}, {3, 3, 3}, {3, 3, 3}}), 2021);
 			Registry registry = LocateRegistry.createRegistry(2021);
 			registry.rebind("hotelHub", hotelHub);
 		} catch (Exception e) {
