@@ -148,9 +148,8 @@ public class Hotel implements HotelInterface{
 				}
 			}
 		}
-		
 		//String report = "Service report for Hotel-" + date.getTime() + "\n";
-		String report = "";
+		String report = "-->\n";
 		for (int i = 0; i < roomsBeingCheckedOutOfOnDate.size(); i++) {
 			Room currentRoom = roomsBeingCheckedOutOfOnDate.get(i);
 			report +=  "\nRoom: " + currentRoom.getRoomId();
@@ -169,7 +168,7 @@ public class Hotel implements HotelInterface{
 			ArrayList<Room> currentRoomList = allRoomLists.get(i);
 			for (int j = 0; j < currentRoomList.size(); j++) {
 				Room currentRoom = currentRoomList.get(j);
-				report += "Room " + currentRoom.getRoomId() + ":   " + currentRoom.getRoomType() + "   " + currentRoom.getStatusOnDate(date);
+				report += "\nRoom " + currentRoom.getRoomId() + ":   " + currentRoom.getRoomType() + "   " + currentRoom.getStatusOnDate(date);
 			}
 		}
 		

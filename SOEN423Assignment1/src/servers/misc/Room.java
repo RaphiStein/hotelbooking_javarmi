@@ -44,6 +44,8 @@ public class Room implements Serializable {
 			addDate.add(Calendar.DAY_OF_MONTH, i);
 			occupiedDates.add(addDate);
 		}
+		// Add to CheckInCheckOut set
+		checkInCheckOutPairs.put(checkIn, checkout);
 	}
 	public boolean roomIsAvailable(Calendar checkIn, Calendar checkout){
 		int daysBetween = (int) (checkout.getTimeInMillis() - checkIn.getTimeInMillis()) / (1000 * 60 * 60 * 24);

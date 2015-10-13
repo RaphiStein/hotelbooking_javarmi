@@ -1,5 +1,6 @@
 package servers.objects;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -7,6 +8,9 @@ import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Date;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import interfaces.HotelHubInterface;
 import interfaces.HotelInterface;
@@ -15,9 +19,12 @@ import servers.misc.Calendar;
 
 public class Manager implements HotelManagerInterface, Serializable {
 
+	private static final Logger LOGGER = Logger.getLogger(Manager.class.getName());
+	
 	private HotelHubInterface hotelHub;
+	
 	/**
-	 * 
+	 *	Serialiazation 
 	 */
 	private static final long serialVersionUID = -5729480726400084600L;
 
@@ -36,17 +43,28 @@ public class Manager implements HotelManagerInterface, Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	@Override
-	public String sayHiToManager() throws RemoteException {
-		return "Hi Manager";
+		
+		// Initialize Logger
+		try {
+			FileHandler fileHandler = new FileHandler("./src/servers/logs/manager.txt");
+			fileHandler.setFormatter(new SimpleFormatter());
+			LOGGER.setUseParentHandlers(false);
+			LOGGER.addHandler(fileHandler);
+			LOGGER.info("LOGGER Configured for Manager");
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public String serviceReport(int hotelId, Calendar serviceDate) throws RemoteException {
 		HotelInterface hotel = hotelHub.getHotelById(hotelId);
-		String report = hotel.serviceReport(serviceDate);
-		System.out.println("Service Report for Hotel-" + hotelId + " on " + serviceDate.getTime() + ":\n");
-		System.out.println(hotel.serviceReport(serviceDate));
+		String report = "Service Report for Hotel-" + hotelId + " on " + serviceDate.getTime() + ":\n";
+		report += hotel.serviceReport(serviceDate);
+		LOGGER.info(report);
 		return report;
 	}
 	@Override

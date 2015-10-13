@@ -1,11 +1,15 @@
 package client;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.regex.Pattern;
 
 import interfaces.HotelGuestHubInterface;
@@ -23,7 +27,12 @@ public class Client {
 	private HotelGuestInterface guest;
 	private String guestId;
 	private HotelManagerInterface manager;
-
+	
+	// LOGGING
+	private static final Logger LOGGER = Logger.getLogger(Client.class.getName());
+	private static FileHandler fileHandler;
+	
+	// Client CONSTRUCTOR
 	public Client(){};
 
 	public static void main(String[] args) {
@@ -55,10 +64,13 @@ public class Client {
 							int hotelId = client.promptForHotelId();
 							Calendar serviceDate = client.promptForDate("Service Date");
 							String report = client.manager.serviceReport(hotelId, serviceDate);
-							System.out.println("Service Report");
 							System.out.println(report);
 							break;
 						case 2:
+							hotelId = client.promptForHotelId();
+							serviceDate = client.promptForDate("Service Date");
+							report = client.manager.printStatus(hotelId, serviceDate);
+							System.out.println(report);
 							break;
 						default:
 							System.out.println("");
@@ -73,15 +85,18 @@ public class Client {
 				try {
 					client.guestHub = (HotelGuestHubInterface) Naming.lookup("rmi://localhost:2020/guestHub");
 					//client.guestId = client.promptForGuestId();
-					client.guestId = "1234567890"; // FOR TESTING
+					client.guestId = "1234567890"; // FOR TESTING QUICKLY
+					configureLogger(client.guestId);					
 					client.guest = (HotelGuestInterface) client.guestHub.getGuestById(client.guestId);
 					System.out.println("** You are logged in as Guest " + client.guestId + " **");
 					System.out.println("-------------------------------------------");
 
 					// LOGIN TO HOTEL
+					/*
 					int hotelId = client.promptForHotelId();
 					System.out.println("Log into a hotel:");
 					client.guest.logInToHotel(hotelId);
+					*/
 
 					boolean guestActive = true;
 					while (guestActive){
@@ -89,16 +104,19 @@ public class Client {
 						boolean success;
 						switch (choice) {
 						case 1:
+							LOGGER.info("Make Reservation");
 							success = client.makeReservation();
 							if (success) System.out.println("Reservation made successfully!");
 							else System.out.println("Reservation unable to be completed. Please try again");
 							break;
 						case 2:
+							LOGGER.info("Cancel Reservation Reservation");
 							success = client.cancelReservation();
 							if (success) System.out.println("Reservation cancelled successfully!");
 							else System.out.println("Cancellation unable to be completed. Please try again");
 							break;
 						case 3:
+							LOGGER.info("Check Availability");
 							success = client.checkAvailability();
 							break;
 						case 4:
@@ -334,5 +352,21 @@ public class Client {
 		calendar.clear(Calendar.MILLISECOND);
 		return calendar;
 
+	}
+	
+	private static void configureLogger(String guestId){
+		try {
+			fileHandler = new FileHandler("./src/client/logs/" + guestId + ".txt");
+			fileHandler.setFormatter(new SimpleFormatter());
+			LOGGER.setUseParentHandlers(false);
+			LOGGER.addHandler(fileHandler);
+			LOGGER.info("LOGGER Configured for Guest " + guestId);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
