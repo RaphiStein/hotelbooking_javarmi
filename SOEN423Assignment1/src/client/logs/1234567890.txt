@@ -1,2 +1,10 @@
-Oct 13, 2015 4:46:32 PM client.Client main
-INFO: Da second!
+Oct 13, 2015 5:10:14 PM client.Client configureLogger
+INFO: LOGGER Configured for Guest 1234567890
+Oct 13, 2015 5:10:16 PM client.Client main
+INFO: Check Availability
+Oct 13, 2015 5:10:17 PM client.Client main
+INFO: Check Availability
+Oct 13, 2015 5:10:18 PM client.Client main
+INFO: Make Reservation
+Oct 13, 2015 5:10:20 PM client.Client main
+INFO: Check Availability

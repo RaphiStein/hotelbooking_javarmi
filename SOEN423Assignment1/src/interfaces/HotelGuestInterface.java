@@ -16,8 +16,8 @@ public interface HotelGuestInterface extends Remote{
 	
 	
 	// CUSTOM METHODS
-	public boolean logInToHotel(int hotelId) throws RemoteException;
-	public int getHotelId() throws RemoteException;
+	//public boolean logInToHotel(int hotelId) throws RemoteException;
+	//public int getHotelId() throws RemoteException;
 	
 	// REQUIRED METHODS (i.e. reserveRooms, cancelRooms, etc)
 	public boolean reserveRoom(String guestId, int hotelId, RoomType roomType, Calendar checkIn, Calendar checkOut) throws RemoteException;

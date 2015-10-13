@@ -41,16 +41,24 @@ public class Guest implements HotelGuestInterface, Serializable {
 	}
 	 */
 	public Guest(String id){
+		try {
+			hotelHub = (HotelHubInterface) Naming.lookup("rmi://localhost:2021/hotelHub");  // reference to the HotelHub
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		reservations = new HashMap<Calendar, ArrayList<GuestReservation>>();
 		System.out.println("Guest-" + id + " on Server created");
 		this.guestId = id;
 	}
 
-	@Override
-	public int getHotelId() throws RemoteException {
-
-		return currentHotel.getHotelId();
-	}
 
 	@Override
 	public boolean reserveRoom(String guestId, int hotelId, servers.misc.RoomType roomType, Calendar checkIn, Calendar checkOut)
@@ -102,6 +110,11 @@ public class Guest implements HotelGuestInterface, Serializable {
 		//System.out.println(availability);
 		return availability;
 	}
+	
+	/**
+	 * Unused currently.
+	 */
+	/*
 	@Override
 	public boolean logInToHotel(int hotelId) throws RemoteException {
 		// Get Hotel from HotelHub
@@ -118,6 +131,7 @@ public class Guest implements HotelGuestInterface, Serializable {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	*/
 
 
 

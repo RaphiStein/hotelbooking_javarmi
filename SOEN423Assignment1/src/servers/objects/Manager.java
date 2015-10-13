@@ -63,7 +63,8 @@ public class Manager implements HotelManagerInterface, Serializable {
 	public String serviceReport(int hotelId, Calendar serviceDate) throws RemoteException {
 		HotelInterface hotel = hotelHub.getHotelById(hotelId);
 		String report = "Service Report for Hotel-" + hotelId + " on " + serviceDate.getTime() + ":\n";
-		report += hotel.serviceReport(serviceDate);
+		report += hotel.serviceReport(serviceDate) + "\n";
+		report += "END\n-->";
 		LOGGER.info(report);
 		return report;
 	}
@@ -72,6 +73,5 @@ public class Manager implements HotelManagerInterface, Serializable {
 		HotelInterface hotel = hotelHub.getHotelById(hotelId);
 		return hotel.printStatus(hotelId, date);
 	}
-
 
 }

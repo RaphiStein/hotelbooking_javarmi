@@ -17,7 +17,7 @@ public class Room implements Serializable {
 
 	private int roomId;
 	private RoomType roomtype;
-	private int price;
+	private int price; 
 	/**
 	 * The hotel this Room belongs to
 	 */
